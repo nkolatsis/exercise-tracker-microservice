@@ -1,0 +1,24 @@
+{
+  "name": "exercise-tracker-api",
+  "version": "0.1.0",
+  "description": "An exercise tracker API microservice developed for the FreeCodeCamp Apis and Microservices Certification.",
+  "main": "tracker-ms.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nkolatsis/exercise-tracker-microservice.git"
+  },
+  "keywords": [
+    "microservice",
+    "api",
+    "node.js"
+  ],
+  "author": "Nicholas Kolatsis",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nkolatsis/exercise-tracker-microservice/issues"
+  },
+  "homepage": "https://github.com/nkolatsis/exercise-tracker-microservice#readme"
+}
