@@ -126,24 +126,32 @@ app.post("/api/exercise/add", urlencodedParser, async (req, res) => {
   }
 });
 
-app.get("/api/exercise/log", (req, res) => {
+app.get("/api/exercise/log", async (req, res) => {
   // PMT: curl http://localhost:5000/api/exercise/log?userId=bMbff8xr7W&from=2018-01-01&to=2018-12-31&limit=50
   let [userId, from, to, limit] = [req.query.userId, req.query.from, req.query.to, req.query.limit];
-
-  if (Number(limit) == NaN) limit = 50;
+  console.log("from:"+from, "to:"+to);
+  
+  limit = Number(limit);
+  if (limit == NaN) limit = 10;
   from = new Date(from);
-  if (!from instanceof Date) from = undefined;
   to = new Date(to);
-  if (!to instanceof Date) to = undefined;
   
   let user = await getUsernameById(userId);
   if (user.exists) {
-  /*  let query = exerciseDB.find({_id: userId}).exec()
-      .then()
-  */
+    let query = exerciseDB.find({userId});
+    if (from instanceof Date) query = query.where({ date: { $gte: from.valueOf() }});
+    if (to instanceof Date) query = query.where({date: {$lte: to.valueOf()}});
+    query.limit(limit).exec((err, data) => {
+      if (err) console.error(err);
+      let response = {_id: userId, username: user.username, from, to, limit: data.length, log: []};
+      for (let exercise of data) {
+        response.log.push({description: exercise.description, duration: exercise.duration, date: exercise.date});
+      };
+      res.json(response);
+    });
+  } else {
+    res.send("invalid userId");
   }
-
-
 });
 
 app.listen(5000, () => console.log("Microservice running on port 5000"));
