@@ -86,6 +86,8 @@ function getUsernameById(userId) {
   });
 };
 
+app.get("/", (req, res) => res.sendFile(__dirname+"/views/form.html"));
+
 app.post("/api/exercise/new-user", urlencodedParser, async (req, res) => {
   // PMT: curl --data "username=nkltss" http://localhost:5000/api/exercise/new-user
   let username = req.body.username;
